@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:uno",
+    "port": "/dev/ttyACM1",
+    "sketch": "Robochamp2023_Robot.ino"
+}
