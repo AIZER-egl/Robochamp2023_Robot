@@ -27,17 +27,11 @@ Bitmask::BitmaskComponent bitmaskValues[7] = {
 
 Bitmask::BitmaskComponent * bitmaskValuesPointer = bitmaskValues;
 
+bool previousInvertControlls = false;
 void setup () {
   Serial.begin(38400);
 
-  for (;;) {
-    if (Serial.available()) {
-      String read = Serial.readStringUntil('\n');
-      int bitmaskReceived = read.toInt();
-      int start = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, BUTTON_E);
-      if (start) break;
-    }
-  }
+  stopExcecution();
 }
 
 void loop () {
@@ -48,10 +42,13 @@ void loop () {
     bool turbo = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, BUTTON_D);
     bool crawButton = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, BUTTON_A);
     bool stopButton = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, BUTTON_F);
+    bool invertControlls = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, BUTTON_C);
 
     motor.joystick(joystick, turbo);
     if (crawButton) craw.toggle();
     if (stopButton) stopExcecution();
+    if (invertControlls && !previousInvertControlls) motor.invertControlls();
+    previousInvertControlls = invertControlls;
   }
 }
 

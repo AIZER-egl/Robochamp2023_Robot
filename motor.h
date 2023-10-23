@@ -12,6 +12,7 @@
 
 class Motor {
     private:
+        bool invertControllsFlag = false;
     public:
         Motor ();
         void fleft (uint8_t speed, bool direction);
@@ -23,6 +24,7 @@ class Motor {
         void backward (uint8_t speed);
         void stop ();
         void joystick (uint8_t joystick, bool turbo);
+        void invertControlls ();
 };
 
 #endif

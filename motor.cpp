@@ -5,6 +5,7 @@ Motor::Motor () {
 }
 
 void Motor::fleft (uint8_t speed, bool direction) {
+    direction = invertControllsFlag ? !direction : direction;
     if (direction) {
         analogWrite(MOTOR_LEFT_A, speed);
         analogWrite(MOTOR_LEFT_B, 0);
@@ -15,6 +16,7 @@ void Motor::fleft (uint8_t speed, bool direction) {
 }
 
 void Motor::fright (uint8_t speed, bool direction) {
+    direction = invertControllsFlag ? !direction : direction;
     if (direction) {
         analogWrite(MOTOR_RIGHT_A, speed);
         analogWrite(MOTOR_RIGHT_B, 0);
@@ -47,6 +49,10 @@ void Motor::backward (uint8_t speed) {
 void Motor::stop () {
     fleft(0, 0);
     fright(0, 0);
+}
+
+void Motor::invertControlls () {
+    invertControllsFlag = !invertControllsFlag;
 }
 
 void Motor::joystick(uint8_t joystick, bool turbo) {
