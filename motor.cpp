@@ -1,8 +1,6 @@
 #include "motor.h"
 
-
-Motor::Motor () {
-}
+Motor::Motor () {}
 
 void Motor::fleft (uint8_t speed, bool direction) {
     direction = invertControllsFlag ? !direction : direction;
