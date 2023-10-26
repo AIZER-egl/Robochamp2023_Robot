@@ -47,7 +47,7 @@ void loop () {
     bool shoot = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, BUTTON_B);
 
     motor.joystick(joystick, turbo);
-    if (crawButton) craw.toggle();
+    if (crawButton && joystick == 1) craw.toggle();
     if (stopButton) stopExcecution();
     if (shoot) thrower.shoot();
     else thrower.stop();  
@@ -55,6 +55,7 @@ void loop () {
     previousInvertControlls = invertControlls;
   }
 }
+
 
 void stopExcecution () {
   motor.stop();
