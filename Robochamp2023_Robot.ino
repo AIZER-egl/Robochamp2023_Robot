@@ -4,6 +4,7 @@
 #include "bitmask.h"
 #include "thrower.h"
 
+#define TIME_BLUETOOTH_INACTIVE 1000
 #define JOYSTICK 0
 #define BUTTON_A 1
 #define BUTTON_B 2
@@ -29,6 +30,8 @@ Bitmask::BitmaskComponent bitmaskValues[7] = {
 
 Bitmask::BitmaskComponent * bitmaskValuesPointer = bitmaskValues;
 bool previousInvertControlls = false;
+uint32_t timeSinceDataReceived = 0;
+
 void setup () {
   Serial.begin(38400);
   Serial.println("Program started");
@@ -37,8 +40,9 @@ void setup () {
 
 void loop () {
   if (Serial.available()) {
+    timeSinceDataReceived = millis();
     String read = Serial.readStringUntil('\n');
-    int bitmaskReceived = read.toInt();
+    int bitmaskReceived = read.toInt()
     int joystick = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, JOYSTICK);
     bool turbo = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, BUTTON_D);
     bool crawButton = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, BUTTON_A);
@@ -54,6 +58,8 @@ void loop () {
     if (invertControlls && !previousInvertControlls) motor.invertControlls();
     previousInvertControlls = invertControlls;
   }
+
+  if (timeSinceDataReceived + TIME_BLUETOOTH_INACTIVE <= millis()) stopExecution();
 }
 
 
