@@ -42,7 +42,7 @@ void loop () {
   if (Serial.available()) {
     timeSinceDataReceived = millis();
     String read = Serial.readStringUntil('\n');
-    int bitmaskReceived = read.toInt()
+    int bitmaskReceived = read.toInt();
     int joystick = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, JOYSTICK);
     bool turbo = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, BUTTON_D);
     bool crawButton = bitmask.bitmaskToValue(bitmaskReceived, bitmaskValuesPointer, BUTTON_A);
@@ -59,7 +59,7 @@ void loop () {
     previousInvertControlls = invertControlls;
   }
 
-  if (timeSinceDataReceived + TIME_BLUETOOTH_INACTIVE <= millis()) stopExecution();
+  if (timeSinceDataReceived + TIME_BLUETOOTH_INACTIVE <= millis()) stopExcecution();
 }
 
 
